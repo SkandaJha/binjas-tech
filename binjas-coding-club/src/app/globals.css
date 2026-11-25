@@ -1,0 +1,153 @@
+@import "tailwindcss";
+
+/* Dark mode is switched by a `dark` class on <html> (see src/providers.tsx). */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
+ * Colour tokens. Components use them as text-ink, bg-surface, border-line,
+ * bg-accent, bg-pastel-blue and so on. Change a value here and it changes
+ * everywhere. See docs/DESIGN.md for the contrast rules.
+ */
+@theme {
+  --color-ink: #0f172a;
+  --color-body: #475569;
+  --color-muted: #64748b;
+  --color-line: #e2e8f0;
+  --color-surface: #f8fafc;
+  --color-night: #0b1020;
+
+  --color-accent: #1d7bfd;
+  --color-accent-red: #e5484d;
+  --color-accent-green: #16a34a;
+  --color-accent-purple: #7c5cfc;
+  --color-accent-yellow: #f5b301;
+  --color-on-yellow: #3b2a00;
+
+  --color-pastel-blue: #e3eeff;
+  --color-pastel-yellow: #fff4cc;
+  --color-pastel-pink: #ffe4ec;
+  --color-pastel-purple: #eee8ff;
+  --color-pastel-teal: #d8f5f0;
+
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+/* Handwritten notes and doodles use this font (font-[family-name:var(--font-script)]). */
+:root {
+  --font-script: "Caveat", "Segoe Script", "Bradley Hand", cursive;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 6rem;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--color-body);
+  background: #f8fafc;
+  -webkit-font-smoothing: antialiased;
+}
+
+.dark body {
+  background: #070b14;
+  color: #cbd5e1;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+@layer components {
+  /* Rounded content card. Padding is added by the component that uses it. */
+  .card {
+    background: #fff;
+    border: 1px solid var(--color-line);
+    border-radius: 1rem;
+    box-shadow: 0 1px 2px rgb(15 23 42 / 0.04), 0 10px 24px -16px rgb(15 23 42 / 0.1);
+    transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+  }
+  .dark .card {
+    background: #0f1a2e;
+    border-color: rgb(255 255 255 / 0.1);
+    box-shadow: 0 1px 2px rgb(0 0 0 / 0.4);
+  }
+
+  /* Wide panel, used by the stats bar. */
+  .panel {
+    background: #fff;
+    border: 1px solid var(--color-line);
+    border-radius: 1.25rem;
+    box-shadow: 0 1px 2px rgb(15 23 42 / 0.04), 0 14px 30px -20px rgb(15 23 42 / 0.12);
+  }
+  .dark .panel {
+    background: #0c1424;
+    border-color: rgb(30 41 59 / 0.9);
+    box-shadow: none;
+  }
+
+  /* Coloured square behind an icon. Size and colour come from the component. */
+  .tile {
+    display: grid;
+    flex-shrink: 0;
+    place-items: center;
+  }
+
+  /* Small label above a section heading. */
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: 1px solid #bfdbfe;
+    background: #eff6ff;
+    color: #1e40af;
+    border-radius: 999px;
+    padding: 0.2rem 0.75rem;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.5;
+  }
+  .dark .eyebrow {
+    border-color: rgb(96 165 250 / 0.25);
+    background: rgb(29 123 253 / 0.12);
+    color: #8db8ff;
+  }
+
+  /* Text link with an arrow, e.g. "View all events". */
+  .text-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    font-size: 14px;
+    font-weight: 600;
+    color: #1d4ed8;
+    transition: color 0.2s;
+  }
+  .text-link:hover {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+}
+
+/* Hide the scrollbar on scroll-snap rows (the row still scrolls). */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
